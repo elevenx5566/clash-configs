@@ -3,10 +3,10 @@
 # 跑裸核用户请自行去掉下方控制面板模块的注释。
 # 机场订阅，如果有多个，复制一份Airport1的配置，注意名字不要和Airport1重复
 proxy-providers:
-  ednovas:
+  顶级机场:
     url: ""
     type: http
-    interval: 86400
+    interval: 2592000
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
@@ -103,16 +103,16 @@ dns:
 # 如果相应分组没有筛选到对应的国家，请根据自己节点名字调整筛选关键字。
 # 没有再使用锚点，是考虑很多新手修改难度，这样新手修改某个分组更容易些。
 proxy-groups:
-  - {name: 🇦🇺 远程访问, type: select,include-all: true , url: "http://192.168.31.1" , filter: "^(?=.*澳大利亚|澳洲|墨尔本|悉尼)(?=.*远程).*$" , proxies: [🇦🇺 自动远程节点组]}
-  - {name: 🗺️ 代理, type: select, proxies: [♻️ 自动选择节点组,🚀 手动选择节点组,🔏 家宽独享节点组,🚌 机场共享点组,直连]}
-  - {name: 🎯 直连, type: select, proxies: [直连,♻️ 自动选择节点组,🚀 手动选择节点组,🔏 家宽独享节点组,🚌 机场共享点组]}
-  - {name: 🐟 漏网之鱼, type: select, proxies: [直连,♻️ 自动选择节点组,🚀 手动选择节点组,🔏 家宽独享节点组,🚌 机场共享点组]}
+  - {name: 🗺️ 代理, type: select, proxies: [🔯 故转节点组,♻️ 自动选择节点组,🚀 手动选择节点组,🔏 家宽独享节点组,🚌 机场共享点组,直连]}
+  - {name: 🎯 直连, type: select, proxies: [直连,🔯 故转节点组,♻️ 自动选择节点组,🚀 手动选择节点组,🔏 家宽独享节点组,🚌 机场共享点组]}
+  - {name: 🐟 漏网之鱼, type: select, proxies: [直连,🔯 故转节点组,♻️ 自动选择节点组,🚀 手动选择节点组,🔏 家宽独享节点组,🚌 机场共享点组]}
 #节点组
   - {name: 🚀 手动选择节点组, type: select, include-all: true, tolerance: 20, interval: 300, filter: "^(?!.*(远程)).*$"}
   - {name: ♻️ 自动选择节点组, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "^(?!.*(cn|🇨🇳|远程|直连|中国)).*$"}
+  - {name: 🔯 故转节点组, type: fallback, include-all: true, tolerance: 20, interval: 300, filter: "^(?!.*(cn|🇨🇳|远程|直连|中国)).*$" }
   - {name: 🔏 家宽独享节点组, type: select, include-all: true, filter: "^.*(私有|个人|私人|自建|家宽).*$"}
   - {name: 🚌 机场共享点组, type: select, include-all: true, filter: "^(?!.*(私有|个人|私人|自建|家宽|远程|直连)).*$"}
-  - {name: 🇦🇺 自动远程节点组, type: url-test, url: "http://192.168.31.1" , include-all: true, tolerance: 10, interval: 300, filter: "^(?=.*澳大利亚|澳洲|墨尔本|悉尼)(?=.*远程).*$"}
+ 
 
 # 规则匹配
 # 此规则部分没有做防泄露处理，因为弊严重大于利！
