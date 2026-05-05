@@ -16,7 +16,8 @@ proxy-providers:
 proxies:
   - name: 直连
     type: direct
-  
+  - name: "ss1"
+    dialer-proxy: dialer
   
 # 全局配置 
 port: 7890
@@ -110,7 +111,7 @@ proxy-groups:
   - {name: 🐟 漏网之鱼, type: select, proxies: [直连,🔏 家宽独享节点组,🚌 前置代理组]}
 #节点组
   - {name: 🔏 家宽独享节点组, type: select, include-all: true, filter: "^.*(私有|个人|私人|自建|家宽).*$"}
-  - {name: 🚌 前置代理组, type: fallback, include-all: true, filter: "^(?!.*(私有|个人|私人|自建|家宽|远程|直连)).*$"}
+  - {name: 🚌 前置代理组, type: select, include-all: true, filter: "^(?!.*(私有|个人|私人|自建|家宽|远程|直连)).*$"}
  
 
 # 规则匹配
