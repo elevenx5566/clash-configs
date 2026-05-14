@@ -3,7 +3,7 @@
 DOMAIN-KEYWORD,baidu
 # 域名后缀匹配
 DOMAIN-SUFFIX,baidu.com
-
+DOMAIN-SUFFIX,uu-gg.one
 ############PT站点tracker#############
 ##馒头
 DOMAIN,tracker.m-team.cc
