@@ -6,7 +6,7 @@ proxy-providers:
   前置加速机场:
     url: ""
     type: http
-    interval: 2592000
+    interval: 86400
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
@@ -106,12 +106,16 @@ dns:
 # 如果相应分组没有筛选到对应的国家，请根据自己节点名字调整筛选关键字。
 # 没有再使用锚点，是考虑很多新手修改难度，这样新手修改某个分组更容易些。
 proxy-groups:
-  - {name: 🗺️ 代理, type: select, proxies: [🔏 家宽独享节点组,🚌 前置代理组,直连]}
-  - {name: 🎯 直连, type: select, proxies: [直连,🔏 家宽独享节点组,🚌 前置代理组]}
-  - {name: 🐟 漏网之鱼, type: select, proxies: [直连,🔏 家宽独享节点组,🚌 前置代理组]}
+  - {name: 🗺️ 代理, type: select, proxies: [🔯 故障转移节点组,🔏 家宽独享节点组,直连]}
+  - {name: 🎯 直连, type: select, proxies: [直连,🔯 故障转移节点组,🔏 家宽独享节点组]}
+  - {name: 🎃 国外AI, type: select, proxies: [🔏 家宽独享节点组,直连,🔯 故障转移节点组]}
+  - {name: 👛 PayPal, type: select, proxies: [直连,🔏 家宽独享节点组,🔯 故障转移节点组]}
+  - {name: 🍎 Apple苹果, type: select,include-all: true}
+  - {name: 🐟 漏网之鱼, type: select, proxies: [直连,🔏 家宽独享节点组,🔯 故障转移节点组]}
 #节点组
+  - {name: 🔯 故障转移节点组, type: fallback, include-all: true, filter: "^(?!.*(私有|个人|私人|自建|家宽|远程)).*$"}
   - {name: 🔏 家宽独享节点组, type: select, include-all: true, filter: "^.*(私有|个人|私人|自建|家宽).*$"}
-  - {name: 🚌 前置代理组, type: select, include-all: true, filter: "^(?!.*(私有|个人|私人|自建|家宽|远程|直连)).*$"}
+  - {name: 🚌 家宽加速节点组, type: select, include-all: true, filter: "^(?!.*(私有|个人|私人|自建|家宽|远程)).*$"}
  
 
 # 规则匹配
@@ -120,8 +124,9 @@ rules:
   - RULE-SET,direct_domain,🎯 直连
   - RULE-SET,proxylite,🗺️ 代理
   - RULE-SET,private_domain,直连
-  - RULE-SET,apple_domain,🎯 直连
-  - RULE-SET,ai,🗺️ 代理
+  - RULE-SET,ai,🎃 国外AI
+  - RULE-SET,apple_domain,🍎 Apple苹果
+  - RULE-SET,paypal_domain,👛 PayPal
   - RULE-SET,github_domain,🗺️ 代理
   - RULE-SET,youtube_domain,🗺️ 代理
   - RULE-SET,google_domain,🗺️ 代理
@@ -131,7 +136,6 @@ rules:
   - RULE-SET,speedtest_domain,🎯 直连
   - RULE-SET,telegram_domain,🗺️ 代理
   - RULE-SET,netflix_domain,🗺️ 代理
-  - RULE-SET,paypal_domain,🎯 直连
   - RULE-SET,gfw_domain,🗺️ 代理
   - RULE-SET,geolocation-!cn,🗺️ 代理
   - RULE-SET,cn_domain,🎯 直连
